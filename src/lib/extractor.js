@@ -1,22 +1,34 @@
-// Use the locally bundled worker via Vite's ?url import (works with pdfjs-dist v5)
+// Use a legacy-compatible version of PDF.js for maximum hosting compatibility
 import * as pdfjsLib from 'pdfjs-dist';
-import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import mammoth from 'mammoth';
 
-// Point pdfjs to local worker bundle — no CDN dependency
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
+/**
+ * We use the v3.11.174 worker.
+ * Standard .js workers (non-module) are much more reliable on shared hosting
+ * like InfinityFree because they don't trigger "Failed to fetch module" errors.
+ */
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
 
 const extractPdfText = async (arrayBuffer) => {
-  const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) });
-  const pdf = await loadingTask.promise;
-  let fullText = '';
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const textContent = await page.getTextContent();
-    const pageText = textContent.items.map(item => item.str).join(' ');
-    fullText += pageText + '\n';
+  try {
+    const loadingTask = pdfjsLib.getDocument({ 
+      data: new Uint8Array(arrayBuffer),
+      useWorkerFetch: true, // Improved compatibility
+      isEvalSupported: false // Safer for some environments
+    });
+    const pdf = await loadingTask.promise;
+    let fullText = '';
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items.map(item => item.str).join(' ');
+      fullText += pageText + '\n';
+    }
+    return fullText;
+  } catch (error) {
+    console.error("PDF extraction error:", error);
+    throw new Error(`Failed to read PDF: ${error.message}`);
   }
-  return fullText;
 };
 
 const extractDocxText = async (arrayBuffer) => {

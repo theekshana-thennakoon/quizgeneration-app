@@ -1,16 +1,64 @@
-# React + Vite
+# QuizGenius AI 🧠✨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+QuizGenius AI is a powerful web application that transforms your documents (PDF, DOCX, TXT) into interactive, AI-powered quizzes instantly. Perfect for students, teachers, and lifelong learners.
 
-Currently, two official plugins are available:
+## 🚀 Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Local Development
+To run the project locally on your machine:
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the development server:
+   ```bash
+   npm run dev
+   ```
+3. Open your browser to the URL shown in your terminal (usually `http://localhost:5173`).
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🏗️ Production & Deployment
 
-## Expanding the ESLint configuration
+### Build for Production
+To create an optimized production build:
+```bash
+npm run build
+```
+The output will be stored in the `dist/` folder.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Preview the Production Build
+To test exactly how the website will behave once deployed:
+```bash
+npm run preview
+```
+This runs the `dist` folder locally so you can verify it before going live.
+
+### How to Access Your Deployed Website
+Once you have deployed to a service like **Vercel** or **Netlify**:
+1. **The URL:** The platform will provide you with a unique, permanent URL (e.g., `https://quiz-genius-ai.vercel.app`).
+2. **Always Online:** You don't need to "run" anything; the hosting provider keeps the site active 24/7.
+3. **Sharing:** Simply send that URL to anyone you want to share the quiz with!
+
+### Hosting on InfinityFree / Apache
+If you are using InfinityFree:
+1. Run `npm run build`.
+2. Upload the **contents** of the `dist/` folder to your `htdocs/` directory via File Manager or FTP.
+3. The `.htaccess` file (already in `public/`) will automatically handle the routing for you.
+
+---
+
+## 🛠️ Key Features
+- **Document Extraction:** Parses text from PDF, Word, and Text files.
+- **Smart Quiz Engine:** Generates plausible distractors based on your document content.
+- **PDF Export:** Download professional results reports with your score and explanations.
+- **Shareable Results:** Generate unique links to share your scores with others.
+- **Responsive Design:** Beautiful, modern UI that works on all devices.
+
+---
+
+## 📦 Tech Stack
+- **Frontend:** React 19, Vite, React Router 7.
+- **Styling:** Vanilla CSS (Glassmorphism design).
+- **Libraries:** jsPDF, Mammoth (Word), PDF.js (PDF extraction), Lucide React (Icons).
+- **Storage:** LocalStorage (Client-side persistence).
